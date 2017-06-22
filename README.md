@@ -1,2 +1,2 @@
-# DP
-Codigos de mi LaTeX de DP
+# Dynamic Programming Básico
+Problemas de Introducción al paradigma de Programación Dinámica
