@@ -20,7 +20,6 @@ int main(){
 	Coeficientes(n);
 	cout << "Coeficientes del binomio de grado " << n << ":" << endl;
 	for(int i=0; i<=n; i++){
-		int m = min(i,n-i);
 		cout << memo[n][m] << " ";
 	}
 	puts("");
