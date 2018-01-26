@@ -1,39 +1,51 @@
 #include<bits/stdc++.h>
 using namespace::std;
 
-const int N = 9;
+const int N = 20;
 
 int n;
-int x[2*N], y[2*N];
-double memo[1<<(2*N)], d[2*N][2*N];
-bool vis[1<<(2*N)];
+double v[N][N];
+double memo[N][1<<N];
+bool vis[N][1<<N];
 
-double dp(int bitmask){
-	if(bitmask+1==(int)(1<<(2*n))) return 0.0; // Caso de salida
-	if(vis[bitmask]) return memo[bitmask]; // Respuesta ya calculada
-	int m1=0; // Primer elemento de la pareja a formar
-	while(bitmask&(int)(1<<m1)) m1++;
-	double ans = DBL_MAX;
-	for(int m2 = m1+1; m2 < 2*n; m2++){ // Iterar para obtener el segundo elemento
-		if(int(bitmask&(int)(1<<m2))==0) // Minimizamos
-			ans = min(ans,d[m1][m2] + dp(bitmask|(1<<m1)|(1<<m2)));
+double DP(int last, int bm){
+	if(bm+1 == int(1<<n)) return 1.0; // Caso final
+	if(vis[last][bm]) return memo[last][bm]; // Respuesta ya calculada
+	double ans = 0.0; // Minimo posible
+	if(last == 0){ // Caso 1
+		for(int i=0; i<n; i++){
+			if((bm>>i)&1) continue; // Ignorar los que ya se tomaron
+			ans = max(ans,1.0*v[last][i]*DP(last,bm|int(1<<i)));
+		}
 	}
-	vis[bitmask] = true; // Estado visitado
-	return memo[bitmask] = ans; // Almacenar y devolver respuesta
+	else{ // Caso 2
+		for(int i=0; i<n; i++){
+			if((bm>>i)&1) continue; // Ignorar los que ya se tomaron
+			if(i == 0){
+				ans = max(ans,1.0*v[i][last]*DP(i,bm|int(1<<i))); // Subcaso 1
+			}
+			else{
+				double carry = 1.0*v[last][i]*DP(last,bm|int(1<<i));
+				carry += 1.0*v[i][last]*DP(i,bm|int(1<<i));
+				ans = max(ans,carry);
+			}
+		}
+	}
+	vis[last][bm] = true; // Estado visitado
+	return memo[last][bm] = ans; // Almacenar y devolver respuesta
 }
 
 int main(){
-	string name;
-	int t = 1;
-	while(cin >> n && n!=0){ // Leer los datos hasta el End of File
-		memset(vis,0,sizeof vis);
-		for(int i=0; i<2*n; i++) cin >> name >> x[i] >> y[i];
-		for(int i=0; i<2*n; i++){
-			for(int j=0; j<2*n; j++){ // Calcular distancias
-				d[i][j] = hypot((x[i]-x[j]),(y[i]-y[j])); 
-			}
+	cin >> n;
+	for(int i=0; i<n; i++){
+		for(int j=0; j<n; j++){
+			cin >> v[i][j];
 		}
-		printf("Case %d: %.2f\n",t++,dp(0));
 	}
+	double ans = 0.0;
+	for(int i=0; i<n; i++){
+			ans = max(ans,DP(i,1<<i));
+	}
+	cout << setprecision(10) << fixed << ans << endl;
 	return 0;
 }
