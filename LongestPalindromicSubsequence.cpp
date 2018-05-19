@@ -21,6 +21,6 @@ int main(){
 	memset(LoPS,-1, sizeof LoPS); // Inicializar todo a -1 (No Visitado)
 	cin >> x;
 	n = x.size();
-	cout << "Longest Palindromic Subsequce = " << LPS(0,n-1) << endl;	
+	cout << "Longest Palindromic Subsequence = " << LPS(0,n-1) << endl;	
 	return 0;
 }
