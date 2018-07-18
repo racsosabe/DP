@@ -1,2 +1,2 @@
 # Dynamic Programming
-Problemas de Introducción al paradigma de Programación Dinámica
+Problemas de Introducción al paradigma de Programación Dinámica.
