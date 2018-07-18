@@ -32,7 +32,7 @@ int main()
 	for (int i=0; i<N; i++) { // O(n)
 		
 		// dp[i] = A[i] + max(dp[i-1], 0)  
-		sum = A[i] + max(0, sum);
+		sum = A[i] + max(sum, 0);
 
 		// ans = max dp[i]
 		ans = max(ans, sum);
