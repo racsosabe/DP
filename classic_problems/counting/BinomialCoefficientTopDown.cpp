@@ -3,25 +3,19 @@ using namespace::std;
 
 const int N = 10000+5;
 
-int n;
+int a, b;
+bool vis[N][N];
 long long memo[N][N];
 
-void Coeficientes(int n){
-	for(int i=0; i<=n; i++){
-		for(int j=0; j<=i; j++){
-			if(j == 0 || j==i) memo[i][j] = 1;
-			else memo[i][j] = memo[i-1][j-1] + memo[i-1][j];
-		}
-	}
+long long C(int n, int m){
+	if(m == 0 || n==m) return memo[n][m] = 1;
+	if(vis[n][m]) return memo[n][m];
+	vis[n][m] = true; // Marcamos el estado como visitado
+	return memo[n][m] = memo[n][n-m] = C(n-1,m-1) + C(n-1,m);
 }
 
 int main(){
-	cin >> n;
-	Coeficientes(n);
-	cout << "Coeficientes del binomio de grado " << n << ":" << endl;
-	for(int i=0; i<=n; i++){
-		cout << memo[n][i] << " ";
-	}
-	puts("");
+	cin >> a >> b;
+	cout << "Combinatoria de " << a << " en " << b << ": " << C(a,b) << endl;
 	return 0;
 }
